@@ -1,0 +1,6 @@
+.navbar {
+    background-color: #1F2937;
+    box-shadow: -2px 12px 5px -6px rgba(0,0,0,0.29);
+    -webkit-box-shadow: -2px 12px 5px -6px rgba(0,0,0,0.29);
+    -moz-box-shadow: -2px 12px 5px -6px rgba(0,0,0,0.29);
+}
