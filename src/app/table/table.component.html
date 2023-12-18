@@ -9,127 +9,84 @@
       [rowsPerPageOptions]="[10, 25, 50]"
       [paginator]="true"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-      [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
+      [globalFilterFields]="['username', 'name', 'profile', 'public_repos', 'followers', 'repos_url']"
       >
       <ng-template pTemplate="caption">
           <div class="flex">
-              <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt1)"></button>
+              <button pButton label="Clear" class="px-3 rounded-2 bg-amber-400 text-white" icon="pi pi-filter-slash" (click)="clear(searchInput)"></button>
               <span class="p-input-icon-left ml-auto">
-                  <i class="pi pi-search"></i>
-                  <input pInputText type="text" #searchInput (input)="dt1.filterGlobal(searchInput.value, 'contains')" placeholder="Search keyword" />
+                <input class="p-2 rounded-2 focus:outline-none focus:border-transparent"
+                pInputText
+                type="text"
+                #searchInput
+                (input)="searchUser(searchInput)"
+                placeholder="Buscar usuário" />
               </span>
           </div>
       </ng-template>
       <ng-template pTemplate="header">
-          <tr>
-              <th style="min-width:15rem">
-                  <div class="flex align-items-center">
-                      Name
-                      <p-columnFilter type="text" field="name" display="menu"></p-columnFilter>
-                  </div>
-              </th>
-              <th style="min-width:15rem">
-                  <div class="flex align-items-center">
-                      Country
-                      <p-columnFilter type="text" field="country.name" display="menu"></p-columnFilter>
-                  </div>
-              </th>
-              <th style="min-width:15rem">
-                  <div class="flex align-items-center">
-                      Agent
-                      <p-columnFilter field="representative" matchMode="in" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
-                          <ng-template pTemplate="header">
-                              <div class="px-3 pt-3 pb-0">
-                                  <span class="font-bold">Agent Picker</span>
-                              </div>
-                          </ng-template>
-                          <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                              <!-- <p-multiSelect [ngModel]="value" [options]="representatives" placeholder="Any" (onChange)="filter($event.value)" optionLabel="name">
-                                  <ng-template let-option pTemplate="item">
-                                      <div class="inline-block vertical-align-middle">
-                                          <img [alt]="option.label" src="https://primefaces.org/cdn/primeng/images/demo/avatar/{{ option.image }}" width="24" class="vertical-align-middle" />
-                                          <span class="ml-1 mt-1">{{ option.name }}</span>
-                                      </div>
-                                  </ng-template>
-                              </p-multiSelect> -->
-                          </ng-template>
-                      </p-columnFilter>
-                  </div>
-              </th>
-              <th style="min-width:10rem">
-                  <div class="flex align-items-center">
-                      Date
-                      <p-columnFilter type="date" field="date" display="menu"></p-columnFilter>
-                  </div>
-              </th>
-              <th style="min-width:10rem">
-                  <div class="flex align-items-center">
-                      Balance
-                      <p-columnFilter type="numeric" field="balance" display="menu" currency="USD"></p-columnFilter>
-                  </div>
-              </th>
-              <th style="min-width:10rem">
-                  <div class="flex align-items-center">
-                      Status
-                      <p-columnFilter field="status" matchMode="equals" display="menu">
-                          <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-                              <!-- <p-dropdown [ngModel]="value" [options]="statuses" (onChange)="filter($event.value)" placeholder="Any">
-                                  <ng-template let-option pTemplate="item">
-                                      <p-tag [value]="option.value" [severity]="getSeverity(option.label)"></p-tag>
-                                  </ng-template>
-                              </p-dropdown> -->
-                          </ng-template>
-                      </p-columnFilter>
-                  </div>
-              </th>
-              <th style="min-width:10rem">
-                  <div class="flex align-items-center">
-                      Activity
-                      <p-columnFilter field="activity" matchMode="between" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
-                          <ng-template pTemplate="filter" let-filter="filterCallback">
-                              <!-- <p-slider [ngModel]="activityValues" [range]="true" (onSlideEnd)="filter($event.values)" styleClass="m-3"></p-slider>
-                              <div class="flex align-items-center px-2">
-                                  <span>{{ activityValues[0] }}</span>
-                                  <span>{{ activityValues[1] }}</span>
-                              </div> -->
-                          </ng-template>
-                      </p-columnFilter>
-                  </div>
-              </th>
-              <th style="width: 3rem">
-                  <div class="flex align-items-center">
-                      Verified
-                      <p-columnFilter type="boolean" field="verified" display="menu"></p-columnFilter>
-                  </div>
-              </th>
-          </tr>
-      </ng-template>
+        <tr>
+          <th style="min-width:15rem">
+            <div class="flex align-items-center">
+              Username
+              <p-columnFilter type="text" field="username" display="menu"></p-columnFilter>
+            </div>
+          </th>
+          <th style="min-width:15rem">
+            <div class="flex align-items-center">
+              Nome
+              <p-columnFilter type="text" field="name" display="menu"></p-columnFilter>
+            </div>
+          </th>
+          <th style="min-width:15rem">
+            <div class="flex align-items-center">
+              Perfil URL
+              <p-columnFilter type="text" field="profile" display="menu"></p-columnFilter>
+            </div>
+          </th>
+          <th style="min-width:10rem">
+            <div class="flex align-items-center">
+              Repos Públicos
+              <p-columnFilter type="numeric" field="public_repos" display="menu"></p-columnFilter>
+            </div>
+          </th>
+          <th style="min-width:10rem">
+            <div class="flex align-items-center">
+              Followers
+              <p-columnFilter type="numeric" field="followers" display="menu"></p-columnFilter>
+            </div>
+          </th>
+          <th style="min-width:10rem">
+            <div class="flex align-items-center">
+              Repos URL
+              <p-columnFilter type="text" field="repos_url" display="menu"></p-columnFilter>
+            </div>
+          </th>
+        </tr>
+      </ng-template>      
       <ng-template pTemplate="body" let-user>
-          <tr>
+        <tr>
             <td>
-              {{ user.login }}
-          </td>
-          <td>
-              <img [alt]="user.name" src="{{user.avatar_url}}" width="32" style="vertical-align: middle" />
-              <span class="ml-1 vertical-align-middle">{{ user.name }}</span>
-          </td>
-          <td>
-              {{ user.created_at | date: 'dd/MM/yyyy' }}
-          </td>
-          <td>
-              {{ user.public_repos }}
-          </td>
-          <td>
-              {{user.followers}}
-          </td>
-          <td>
-              {{user.email}}
-          </td>
-          <td>
-              {{user.repos_url}}
-          </td>
-          </tr>
-      </ng-template>
+                {{ user?.login }}
+            </td>
+            <td class="flex items-center">
+                <img [alt]="user.name" src="{{ user.avatar_url }}" width="32" style="border-radius: 15px;" />
+                <span class="ml-2">{{ user.name }}</span>
+            </td>
+            <td>
+                {{ user?.url }}
+            </td>
+            <td>
+                {{ user?.public_repos }}
+            </td>
+            <td>
+                {{ user?.followers }}
+            </td>
+            <td>
+                {{ user?.repos_url }}
+            </td>
+        </tr>
+    </ng-template>
       <ng-template pTemplate="emptymessage">
           <tr>
               <td colspan="7">Usuário não encontrado.</td>
